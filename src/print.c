@@ -212,6 +212,7 @@ static void PrintUpvalues(const Proto* f)
  }
 }
 
+// 这个函数的名字其实是 luaU_print, 用 宏 PrintFunction 可能是为了统一风格
 void PrintFunction(const Proto* f, int full)
 {
  int i,n=f->sizep;

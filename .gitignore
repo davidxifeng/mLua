@@ -1,3 +1,5 @@
+luac.out
+
 *.o
 *.a
 /src/lua
