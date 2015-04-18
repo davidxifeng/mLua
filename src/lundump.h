@@ -15,6 +15,7 @@ LUAI_FUNC Proto* luaU_undump (lua_State* L, ZIO* Z, Mbuffer* buff, const char* n
 
 /* make header; from lundump.c */
 LUAI_FUNC void luaU_header (char* h);
+LUAI_FUNC void luaU_header_p (char* h);
 
 /* dump one chunk; from ldump.c */
 LUAI_FUNC int luaU_dump (lua_State* L, const Proto* f, lua_Writer w, void* data, int strip);

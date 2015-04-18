@@ -1,5 +1,7 @@
 luac.out
 
+a.out
+
 *.o
 *.a
 /src/lua

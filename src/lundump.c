@@ -225,3 +225,20 @@ void luaU_header (char* h)
  *h++=(char)sizeof(lua_Number);
  *h++=(char)(((lua_Number)0.5)==0);		/* is lua_Number integral? */
 }
+
+#define MY_LUAC_FORMAT 0x66
+
+void luaU_header_p (char* h) {
+    memcpy(h,LUA_SIGNATURE,sizeof(LUA_SIGNATURE)-1);
+    h   += sizeof(LUA_SIGNATURE)-1;
+    *h++ =(char)LUAC_VERSION;
+    *h++ =(char)MY_LUAC_FORMAT;
+
+    *h++ = (char)1; // endianness
+    *h++ = (char)4; // sizeof int
+    *h++ = (char)8; // sizeof size_t
+    *h++ = (char)4; // sizeof instruction
+    *h++ = (char)8; // sizeof number
+
+    *h++ = (char)(((lua_Number)0.5)==0);
+}
