@@ -1,6 +1,6 @@
 luac.out
-
 a.out
+*.out
 
 *.o
 *.a

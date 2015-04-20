@@ -147,21 +147,6 @@ static void DumpFunction(const Proto* f, const TString* p, DumpState* D)
  DumpDebug(f,D);
 }
 
-#define BSWAP_32(x)     (((uint32_t)(x) << 24) | \
-                        (((uint32_t)(x) <<  8)  & 0xff0000) | \
-                        (((uint32_t)(x) >>  8)  & 0xff00) | \
-                        ((uint32_t)(x)  >> 24))
-
-
-#define BSWAP_64(x)     (((uint64_t)(x) << 56) | \
-                        (((uint64_t)(x) << 40) & 0xff000000000000ULL) | \
-                        (((uint64_t)(x) << 24) & 0xff0000000000ULL) | \
-                        (((uint64_t)(x) << 8)  & 0xff00000000ULL) | \
-                        (((uint64_t)(x) >> 8)  & 0xff000000ULL) | \
-                        (((uint64_t)(x) >> 24) & 0xff0000ULL) | \
-                        (((uint64_t)(x) >> 40) & 0xff00ULL) | \
-                        ((uint64_t)(x)  >> 56))
-
 static void (*dump_int)(int x, DumpState* D) = NULL;
 static void (*dump_size_t)(size_t x, DumpState* D) = NULL;
 static void (*dump_number)(lua_Number x, DumpState* D) = NULL;
@@ -275,19 +260,19 @@ static void dump_code_vector_s(const void *b, int n, DumpState* D) {
 }
 
 static void setup_dump_funcs(DumpState* D) {
-    int x = 0x1;
-    int8_t ile = *(int8_t *)&x;
     if (dump_int == NULL) {
-        dump_int = ile ? dump_int_o : dump_int_s;
-    }
-    if (dump_size_t == NULL) {
-        dump_size_t = ile ? dump_size_t_o : dump_size_t_s;
-    }
-    if (dump_int_vector == NULL) {
-        dump_int_vector = ile ? dump_int_vector_o : dump_int_vector_s;
-    }
-    if (dump_code_vector == NULL) {
-        dump_code_vector = ile ? dump_code_vector_o : dump_code_vector_s;
+        int x = 0x1;
+        if (*(int8_t *)&x) {
+            dump_int         = dump_int_o;
+            dump_size_t      = dump_size_t_o;
+            dump_int_vector  = dump_int_vector_o;
+            dump_code_vector = dump_code_vector_o;
+        } else {
+            dump_int         =  dump_int_s;
+            dump_size_t      =  dump_size_t_s;
+            dump_int_vector  =  dump_int_vector_s;
+            dump_code_vector =  dump_code_vector_s;
+        }
     }
 
     if (dump_number == NULL) {
