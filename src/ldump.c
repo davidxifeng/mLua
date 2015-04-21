@@ -324,8 +324,10 @@ static void dump_constants(const Proto* f, DumpState* D) {
 
 static void dump_debug(const Proto* f, DumpState* D) {
     int i,n;
+
     n= (D->strip) ? 0 : f->sizelineinfo;
     dump_int_vector(f->lineinfo, n, sizeof(int), D);
+
     n= (D->strip) ? 0 : f->sizelocvars;
     dump_int(n,D);
     for (i=0; i<n; i++) {
@@ -333,6 +335,7 @@ static void dump_debug(const Proto* f, DumpState* D) {
         dump_int(f->locvars[i].startpc,D);
         dump_int(f->locvars[i].endpc,D);
     }
+
     n= (D->strip) ? 0 : f->sizeupvalues;
     dump_int(n,D);
     for (i=0; i<n; i++) {
